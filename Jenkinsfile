@@ -25,7 +25,7 @@ pipeline {
                 sh "./gradlew jacocoTestCoverageVerification"
             }
         }
-        stage("Static coide analysis"){
+        stage("Static code analysis"){
             steps {
                 sh "./gradlew checkstyleMain"
                 publishHTML (target: [
