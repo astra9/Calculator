@@ -16,4 +16,10 @@ public class CalculatorController {
         int sum = a+b;
         return ResponseEntity.ok().body(String.valueOf(sum));
     }
+
+    @RequestMapping("subtract")
+    public ResponseEntity<String> subtract(@RequestParam("a") int a, @RequestParam("b") int b){
+        int subtraction = a-b;
+        return ResponseEntity.ok().body(String.valueOf(subtraction));
+    }
 }
