@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.45.1">
+<file name="/home/zeemo/practiceDevOps/practiceOne/springBootAppForJenkins/Calculator/src/test/java/com/zeemo/calculator/CalculatorApplicationTests.java">
+</file>
+<file name="/home/zeemo/practiceDevOps/practiceOne/springBootAppForJenkins/Calculator/src/test/java/com/zeemo/calculator/CalculatorTest.java">
+</file>
+</checkstyle>
