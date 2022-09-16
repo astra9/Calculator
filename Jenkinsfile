@@ -45,5 +45,15 @@ pipeline {
                 sh "docker build -t zeemodevops/simomere:calculator ."
             }
         }
+        stage("Docker push") {
+            steps{
+                withCredentials( [usernamePassword( credentialsId: 'Docker-Hub',
+                                                  usernameVariable: 'USERNAME',
+                                                  passwordVariable: 'PASSWORD')]) {
+                    sh 'docker login --username $USERNAME --password $PASSWORD'
+                    sh 'docker push zeemodevops/simomere:calculator'
+                }
+            }
+        }
     }
 }
