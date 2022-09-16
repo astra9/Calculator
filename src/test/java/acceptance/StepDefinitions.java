@@ -27,7 +27,7 @@ public class StepDefinitions {
     }
 
     @Then("^I receive (.*) as a result$")
-    public void i_received_as_a_result(String expectedResult){
+    public void i_received_as_a_result(String expectedResult) throws Throwable{
         Assertions.assertEquals(expectedResult,result);
     }
 }
