@@ -55,5 +55,23 @@ pipeline {
                 }
             }
         }
+        stage("Deploy to staging") {
+            steps{
+                sh "docker run -d --rm -p 7777:7777 --name calculator zeemodevops/simomere:calculator"
+            }
+        }
+        stage("Acceptance test") {
+            steps{
+                sleep 60
+                sh "chmod +x acceptance_test.sh && ./acceptance_test.sh"
+
+            }
+            post {
+                always {
+                    sh "docker stop calculator"
+                }
+            }
+        }
+
     }
 }
