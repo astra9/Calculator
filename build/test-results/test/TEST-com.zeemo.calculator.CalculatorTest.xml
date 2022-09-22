@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.zeemo.calculator.CalculatorTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-09-19T09:55:59" hostname="zeemo" time="3.062">
-  <properties/>
-  <testcase name="testSum()" classname="com.zeemo.calculator.CalculatorTest" time="3.06"/>
-  <testcase name="testSubtraction()" classname="com.zeemo.calculator.CalculatorTest" time="0.001"/>
-  <system-out><![CDATA[Here!
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
