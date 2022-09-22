@@ -62,11 +62,16 @@ pipeline {
         }
         stage("Deploy to staging") {
             steps{
-                sh 'kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=$USERNAME --docker-password=$PASSWORD'
-                sh "kubectl config use-context deployment"
-                sh "kubectl apply -f hazelcast.yaml"
-                sh "kubectl apply -f deployment.yaml"
-                sh "kubectl apply -f service.yaml"
+                withCredentials( [usernamePassword( credentialsId: 'Docker-Hub',
+                                                    usernameVariable: 'USERNAME',
+                                                    passwordVariable: 'PASSWORD')]) {
+                                  sh 'kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=$USERNAME --docker-password=$PASSWORD'
+                                  sh "kubectl config use-context deployment"
+                                  sh "kubectl apply -f hazelcast.yaml"
+                                  sh "kubectl apply -f deployment.yaml"
+                                  sh "kubectl apply -f service.yaml"
+                    }
+
                 // sh "docker run -d --rm -p 7777:7777 --name calculator zeemodevops/simomere:calculator-${BUILD_TIMESTAMP}"
             }
         }
