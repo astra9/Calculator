@@ -55,26 +55,12 @@ pipeline {
                 }
             }
         }
-        stage("Update version"){
-            steps{
-                sh "sed  -i 's/{{VERSION}}/${BUILD_TIMESTAMP}/g' deployment.yaml"
-            }
-        }
         stage("Deploy to staging") {
             steps{
-                withCredentials( [usernamePassword( credentialsId: 'Docker-Hub',
-                                                    usernameVariable: 'USERNAME',
-                                                    passwordVariable: 'PASSWORD')]) {
-                                  sh "kubectl config use-context deployment"
-                                  sh "kubectl apply -f hazelcast.yaml"
-                                  sh "kubectl apply -f deployment.yaml"
-                                  sh "kubectl apply -f service.yaml"
-                    }
-
-                // sh "docker run -d --rm -p 7777:7777 --name calculator zeemodevops/simomere:calculator-${BUILD_TIMESTAMP}"
+                  sh "docker run -d --rm -p 7777:7777 --name calculator zeemodevops/simomere:calculator-${BUILD_TIMESTAMP}"
             }
         }
-        /* stage("Acceptance test") {
+         stage("Acceptance test") {
             steps{
                 sleep 60
                 sh "./gradlew acceptanceTest -Dcalculator.url=http://192.168.1.55:7777"
@@ -85,6 +71,24 @@ pipeline {
                 }
             }
         }
-        */
+        stage("Update version"){
+            steps{
+                sh "sed  -i 's/{{VERSION}}/${BUILD_TIMESTAMP}/g' deployment.yaml"
+            }
+        }
+        stage("Deploy to production") {
+            steps{
+                  sh "kubectl config use-context deployment"
+                  sh "kubectl apply -f hazelcast.yaml"
+                  sh "kubectl apply -f deployment.yaml"
+                  sh "kubectl apply -f service.yaml"
+            }
+        }
+        stage("Smoke test"){
+            steps{
+                sleep 60
+                sh 'chmod +x smoke-test.sh && ./smoke-test.sh'
+            }
+        }
     }
 }
