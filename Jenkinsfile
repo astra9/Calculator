@@ -90,8 +90,8 @@ pipeline {
             }
         }
         stage("Deploy to production") {
-            sleep 60
             steps{
+                  sleep 60
                   sh "kubectl config use-context deployment"
                   sh "kubectl apply -f hazelcast.yaml"
                   sh "kubectl apply -f deployment.yaml"
