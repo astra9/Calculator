@@ -55,28 +55,42 @@ pipeline {
                 }
             }
         }
-        stage("Deploy to staging") {
-            steps{
-                  sh "docker run -d --rm -p 7000:7000 --name calculator zeemodevops/simomere:calculator-${BUILD_TIMESTAMP}"
-            }
-        }
-         stage("Acceptance test") {
-            steps{
-                sleep 120
-                sh "./gradlew acceptanceTest -Dcalculator.url=http://192.168.1.55:7000"
-            }
-            post {
-                always {
-                    sh "docker stop calculator"
-                }
-            }
-        }
         stage("Update version"){
             steps{
                 sh "sed  -i 's/{{VERSION}}/${BUILD_TIMESTAMP}/g' deployment.yaml"
             }
         }
+        stage("Deploy to staging") {
+            steps{
+                sh "kubectl config use-context deployment"
+                sh "kubectl apply -f hazelcast.yaml"
+                sh "kubectl apply -f deployment.yaml"
+                sh "kubectl apply -f service.yaml"
+                  //sh "docker run -d --rm -p 7000:7000 --name calculator zeemodevops/simomere:calculator-${BUILD_TIMESTAMP}"
+            }
+           /* post {
+                always {
+                    sh "docker stop calculator"
+                }
+            } */
+        }
+         stage("Acceptance test") {
+            steps{
+                sleep 60
+                sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
+                //sh "./gradlew acceptanceTest -Dcalculator.url=http://192.168.1.55:7000"
+            }
+            post {
+                always {
+                    sh "kubectl delete deployment calculator-deployment"
+                    sh "kubectl delete deployment hazelcast"
+                    sh "kubectl delete service calculator-service"
+                    sh "kubectl delete service hazelcast"
+                }
+            }
+        }
         stage("Deploy to production") {
+            sleep 60
             steps{
                   sh "kubectl config use-context deployment"
                   sh "kubectl apply -f hazelcast.yaml"
