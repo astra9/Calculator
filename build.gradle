@@ -35,6 +35,7 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 	exclude '**/acceptance/**'
+	exclude '**/smoke/**'
 }
 
 tasks.register('acceptanceTest', Test) {
