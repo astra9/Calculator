@@ -65,7 +65,6 @@ pipeline {
                 withCredentials( [usernamePassword( credentialsId: 'Docker-Hub',
                                                     usernameVariable: 'USERNAME',
                                                     passwordVariable: 'PASSWORD')]) {
-                                  sh 'kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=$USERNAME --docker-password=$PASSWORD'
                                   sh "kubectl config use-context deployment"
                                   sh "kubectl apply -f hazelcast.yaml"
                                   sh "kubectl apply -f deployment.yaml"
