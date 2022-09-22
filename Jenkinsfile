@@ -57,13 +57,13 @@ pipeline {
         }
         stage("Deploy to staging") {
             steps{
-                  sh "docker run -d --rm -p 7777:7777 --name calculator zeemodevops/simomere:calculator-${BUILD_TIMESTAMP}"
+                  sh "docker run -d --rm -p 7000:7000 --name calculator zeemodevops/simomere:calculator-${BUILD_TIMESTAMP}"
             }
         }
          stage("Acceptance test") {
             steps{
                 sleep 120
-                sh "./gradlew acceptanceTest -Dcalculator.url=http://192.168.1.55:7777"
+                sh "./gradlew acceptanceTest -Dcalculator.url=http://192.168.1.55:7000"
             }
             post {
                 always {

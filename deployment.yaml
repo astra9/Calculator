@@ -24,10 +24,10 @@ spec:
         - name: calculator
           image: zeemodevops/simomere:calculator-{{VERSION}}
           ports:
-            - containerPort: 7777
+            - containerPort: 7000
           readinessProbe:
             httpGet:
               path: /subtract?a=5&b=2
-              port: 7777
+              port: 7000
       imagePullSecrets:
         - name: regcred
