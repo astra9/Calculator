@@ -35,7 +35,6 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 	exclude '**/acceptance/**'
-	exclude '**/smoke/**'
 }
 
 tasks.register('acceptanceTest', Test) {
@@ -43,10 +42,6 @@ tasks.register('acceptanceTest', Test) {
 	systemProperties System.getProperties()
 }
 
-tasks.register('smokeTest', Test) {
-	include '**/smoke/**'
-	systemProperties System.getProperties()
-}
 
 jacocoTestCoverageVerification{
 	violationRules{
